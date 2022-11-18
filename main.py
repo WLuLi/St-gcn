@@ -13,6 +13,7 @@ if __name__ == '__main__':
     # region register processor yapf: disable
     processors = dict()
     processors['recognition'] = import_class('processor.recognition.REC_Processor')
+    # training use 'recognition' processor
     processors['demo_old'] = import_class('processor.demo_old.Demo')
     processors['demo'] = import_class('processor.demo_realtime.DemoRealtime')
     processors['demo_offline'] = import_class('processor.demo_offline.DemoOffline')
@@ -21,6 +22,7 @@ if __name__ == '__main__':
     # add sub-parser
     subparsers = parser.add_subparsers(dest='processor')
     for k, p in processors.items():
+        # print(k,p) # recognition <class 'processor.recognition.REC_Processor'>
         subparsers.add_parser(k, parents=[p.get_parser()])
 
     # read arguments

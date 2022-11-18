@@ -21,9 +21,9 @@ class Model(nn.Module):
         - Input: :math:`(N, in_channels, T_{in}, V_{in}, M_{in})`
         - Output: :math:`(N, num_class)` where
             :math:`N` is a batch size,
-            :math:`T_{in}` is a length of input sequence,
-            :math:`V_{in}` is the number of graph nodes,
-            :math:`M_{in}` is the number of instance in a frame.
+            :math:`T_{in}` is a length of input sequence, 帧数
+            :math:`V_{in}` is the number of graph nodes, 关节数
+            :math:`M_{in}` is the number of instance in a frame. 人数
     """
 
     def __init__(self, in_channels, num_class, graph_args,
@@ -31,8 +31,8 @@ class Model(nn.Module):
         super().__init__()
 
         # load graph
-        self.graph = Graph(**graph_args)
-        A = torch.tensor(self.graph.A, dtype=torch.float32, requires_grad=False)
+        self.graph = Graph(**graph_args) # get D^(-1)A
+        A = torch.tensor(self.graph.A, dtype=torch.float32, requires_grad=False) # A不是参数,不需要梯度
         self.register_buffer('A', A)
 
         # build networks

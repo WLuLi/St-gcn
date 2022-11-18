@@ -70,13 +70,14 @@ class Graph():
             neighbor_link = [(i - 1, j - 1) for (i, j) in neighbor_1base]
             self.edge = self_link + neighbor_link
             self.center = 2
+        # 自定义的关节、边、中心点
         # elif layout=='customer settings'
         #     pass
         else:
             raise ValueError("Do Not Exist This Layout.")
 
     def get_adjacency(self, strategy):
-        valid_hop = range(0, self.max_hop + 1, self.dilation)
+        valid_hop = range(0, self.max_hop + 1, self.dilation) # range(0,2)->[0,1]
         adjacency = np.zeros((self.num_node, self.num_node))
         for hop in valid_hop:
             adjacency[self.hop_dis == hop] = 1
@@ -121,7 +122,7 @@ class Graph():
             raise ValueError("Do Not Exist This Strategy")
 
 
-def get_hop_distance(num_node, edge, max_hop=1):
+def get_hop_distance(num_node, edge, max_hop=1): # 获取距离矩阵
     A = np.zeros((num_node, num_node))
     for i, j in edge:
         A[j, i] = 1

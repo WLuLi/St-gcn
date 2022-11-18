@@ -37,13 +37,13 @@ class REC_Processor(Processor):
         Processor for Skeleton-based Action Recgnition
     """
 
-    def load_model(self):
+    def load_model(self): # 加载模型
         self.model = self.io.load_model(self.arg.model,
                                         **(self.arg.model_args))
-        self.model.apply(weights_init)
+        self.model.apply(weights_init) # 初始化权重
         self.loss = nn.CrossEntropyLoss()
         
-    def load_optimizer(self):
+    def load_optimizer(self): # 加载优化器
         if self.arg.optimizer == 'SGD':
             self.optimizer = optim.SGD(
                 self.model.parameters(),
