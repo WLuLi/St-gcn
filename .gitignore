@@ -10,6 +10,7 @@ model/*
 *.caffemodel
 cache/
 skeleton+D0-30000
+skeleton+D0-30000.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
