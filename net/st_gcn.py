@@ -32,15 +32,19 @@ class Model(nn.Module):
 
         # load graph
         self.graph = Graph(**graph_args) # get D^(-1)A
+        # graph args is 'ntu-rgb+d' and 'spatial'
         A = torch.tensor(self.graph.A, dtype=torch.float32, requires_grad=False) # A不是参数,不需要梯度
-        self.register_buffer('A', A)
+        self.register_buffer('A', A) # 定义一组参数，但是不会被当做模型参数来更新，但是会被记录在state_dict中
 
         # build networks
         spatial_kernel_size = A.size(0)
         temporal_kernel_size = 9
         kernel_size = (temporal_kernel_size, spatial_kernel_size)
         self.data_bn = nn.BatchNorm1d(in_channels * A.size(1))
+        # A.size(1) is the number of nodes
+        # in_channels is the number of channels in the input data
         kwargs0 = {k: v for k, v in kwargs.items() if k != 'dropout'}
+        # st-gcn
         self.st_gcn_networks = nn.ModuleList((
             st_gcn(in_channels, 64, kernel_size, 1, residual=False, **kwargs0),
             st_gcn(64, 64, kernel_size, 1, **kwargs),

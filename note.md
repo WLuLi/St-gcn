@@ -14,6 +14,7 @@ model->net.st_gcn.model
         edge_importance_weighting (bool): If ``True``, adds a learnable
             importance weighting to the edges of the graph
         **kwargs (optional): Other parameters for graph convolution units
+
 - Model Input: :math:`(N, in_channels, T_{in}, V_{in}, M_{in})`
         - Output: :math:`(N, num_class)` where
             :math:`N` is a batch size,
@@ -22,6 +23,23 @@ model->net.st_gcn.model
             :math:`M_{in}` is the number of instance in a frame. 人数
 
 - graph.py
+
+  - 构建graph的参数：araph args -> ntu-rgb+b & spatial (数据集和策略)
   - uniform: A=normalized adjacency matrix
-  the st_gcn model -> self.graph gets D^(-1)A for 'uniform' (normalized adjacency matrix)
+    the st_gcn model -> self.graph gets D^(-1)A for 'uniform' (normalized adjacency matrix)
+  - 构建的self.A为AD(归一化的邻接矩阵)
+  - self.A的形状为[\[\]\[\]]，因此A[0]访问到矩阵
+
+- st_gcn.py
+
+  - A=self.graph.A, 但不是参数、不需要梯度
+
+  - spatial_kernel_size=A.size(0) # 矩阵
+
+    temporal_kernel_size=9
+
+    kernel_size = (temporal_kernel_size, spatial_kernel_size)
+
+  - class st-gcn
+
 

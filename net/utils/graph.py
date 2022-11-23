@@ -82,10 +82,12 @@ class Graph():
         for hop in valid_hop:
             adjacency[self.hop_dis == hop] = 1
         normalize_adjacency = normalize_digraph(adjacency)
+        # normalize_adjacency = AD
 
         if strategy == 'uniform':
             A = np.zeros((1, self.num_node, self.num_node))
             A[0] = normalize_adjacency
+            # A=[[][]], A[0]=AD
             self.A = A
         elif strategy == 'distance':
             A = np.zeros((len(valid_hop), self.num_node, self.num_node))
